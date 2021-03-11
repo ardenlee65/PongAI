@@ -13,12 +13,20 @@ class QLearner(nn.Module):
         super(QLearner, self).__init__()
 
         self.batch_size = batch_size
+        print(type(batch_size))
         self.gamma = gamma
+        print(type(gamma))
         self.num_frames = num_frames
+        print(type(num_frames))
         self.replay_buffer = replay_buffer
+        print(type(replay_buffer))
         self.env = env
+        print(type(env))
         self.input_shape = self.env.observation_space.shape
+        print(type(env.observation_space.shape))
         self.num_actions = self.env.action_space.n
+        print(type(self.num_actions))
+        print('\n')
 
         self.features = nn.Sequential(
             nn.Conv2d(self.input_shape[0], 32, kernel_size=8, stride=4),
@@ -82,7 +90,9 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     print(type(action))
     print(type(reward))
     print(type(done))
-    return 0#loss
+    print("end!")
+    loss = Variable(torch.FloatTensor([0]), requires_grad=True)
+    return loss
 
 
 class ReplayBuffer(object):
