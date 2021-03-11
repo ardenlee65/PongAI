@@ -77,10 +77,11 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     # implement the loss function here
     # Q_values = model(state).detach().cpu().numpy()
     # hello there
-
-    
-
-    
+    print(type(state))
+    print(type(next_state))
+    print(type(action))
+    print(type(reward))
+    print(type(done))
     return loss
 
 
