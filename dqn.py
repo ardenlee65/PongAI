@@ -76,7 +76,9 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     done = Variable(torch.FloatTensor(done))
     # implement the loss function here
     # Q_values = model(state).detach().cpu().numpy()
+    # hello there
 
+    
 
     
     return loss
