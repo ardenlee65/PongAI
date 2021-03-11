@@ -82,7 +82,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     print(type(action))
     print(type(reward))
     print(type(done))
-    return loss
+    return 0#loss
 
 
 class ReplayBuffer(object):
