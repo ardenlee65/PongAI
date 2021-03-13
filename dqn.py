@@ -52,10 +52,6 @@ class QLearner(nn.Module):
             # self(input) calls the forward function
             # output = argmax(self(input))
             action = torch.argmax(self(state))
-
-
-
-
         else:
             # self.env.action_space.n represents possible actions
             action = random.randrange(self.env.action_space.n)
@@ -81,6 +77,8 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     print(model_Q_values)
     print('\ntarget:')
     print(target_model_Q_values)
+    print('\nadd:')
+    print(target_model_Q_values + model_Q_values)
     #for x in range(batch_size):
 
 
