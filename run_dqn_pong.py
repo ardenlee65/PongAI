@@ -79,7 +79,6 @@ for frame_idx in range(1, num_frames + 1):
         loss_saved.write(str(frame_idx) + "," + str(loss.data.cpu().numpy()[0]) + "\n")
 
 
-
     if frame_idx % 10000 == 0 and len(replay_buffer) <= replay_initial:
         print('#Frame: %d, preparing replay buffer' % frame_idx)
 
@@ -90,5 +89,6 @@ for frame_idx in range(1, num_frames + 1):
     if frame_idx % 50000 == 0:
         target_model.copy_from(model)
 
-
+reward_saved.close()
+loss_saved.close()
 
