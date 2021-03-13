@@ -45,8 +45,8 @@ losses = []
 all_rewards = []
 episode_reward = 0
 # MY CODE
-#loss_saved = open("loss.txt", "a")
-#reward_saved = open("reward.txt", "a")
+loss_saved = open("loss.csv", "a")
+reward_saved = open("reward.csv", "a")
 state = env.reset()
 
 for frame_idx in range(1, num_frames + 1):
@@ -64,9 +64,10 @@ for frame_idx in range(1, num_frames + 1):
     if done:
         state = env.reset()
         all_rewards.append((frame_idx, episode_reward))
+        # MY CODE
+        reward_saved.write(str(frame_idx) + "," + str(episode_reward) + '\n')
         episode_reward = 0
-        print("reward:")
-        print(episode_reward)
+
 
     if len(replay_buffer) > replay_initial:
         loss = compute_td_loss(model, target_model, batch_size, gamma, replay_buffer)
@@ -74,8 +75,10 @@ for frame_idx in range(1, num_frames + 1):
         loss.backward()
         optimizer.step()
         losses.append((frame_idx, loss.data.cpu().numpy()))
-        print("loss:")
-        print(loss.data.cpu().numpy())
+        # MY CODE
+        loss_saved.write(str(frame_idx) + "," + str(loss.data.cpu().numpy()[0]) + "\n")
+
+
 
     if frame_idx % 10000 == 0 and len(replay_buffer) <= replay_initial:
         print('#Frame: %d, preparing replay buffer' % frame_idx)
