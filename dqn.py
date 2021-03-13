@@ -76,10 +76,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
         target_val = reward.data[x] + gamma * torch.max(target_model(next_state).data[x])
         model_val = reward.data[x] + gamma * torch.max(model(state).data[x])
         loss += (target_val - model_val)**2
-        print(f'target model: {target_val}')
-        print(f'model: {model_val}')
-        print(f'loss: {loss}')
-        
+
     return Variable(torch.FloatTensor([loss/batch_size]), requires_grad=True)
 
 

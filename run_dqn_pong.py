@@ -44,7 +44,8 @@ epsilon_by_frame = lambda frame_idx: epsilon_final + (epsilon_start - epsilon_fi
 losses = []
 all_rewards = []
 episode_reward = 0
-
+# MY CODE
+data = open("loss_reward.csv", "a")
 state = env.reset()
 
 for frame_idx in range(1, num_frames + 1):
@@ -81,5 +82,8 @@ for frame_idx in range(1, num_frames + 1):
     if frame_idx % 50000 == 0:
         target_model.copy_from(model)
 
+    #MY CODE
+    data.write(losses[frame_idx] + "," + all_rewards[frame_idx] + "\n")
 
 
+data.close()
