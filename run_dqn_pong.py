@@ -80,6 +80,8 @@ for frame_idx in range(1, num_frames + 1):
 
 
     if frame_idx % 10000 == 0 and len(replay_buffer) <= replay_initial:
+        # MY CODE
+        torch.save(model.state.dict(), "new_model")
         print('#Frame: %d, preparing replay buffer' % frame_idx)
 
     if frame_idx % 10000 == 0 and len(replay_buffer) > replay_initial:
