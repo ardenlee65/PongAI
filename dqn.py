@@ -78,7 +78,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     print('\ntarget:')
     print(target_model_Q_values)
     print('\nadd:')
-    print(target_model_Q_values + model_Q_values)
+    print(((target_model_Q_values - model_Q_values)**2).sum)
     #for x in range(batch_size):
 
 
