@@ -78,6 +78,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
         if done.data[x]:
             model_val = reward.data[x]
         else:
+            # maybe dont use action.data[x]?
             model_val = reward.data[x] + gamma * torch.max(model(state).data[action.data[x]])
         loss += (target_val - model_val)**2
 
