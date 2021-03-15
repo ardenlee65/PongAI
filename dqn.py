@@ -73,8 +73,12 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     # implement the loss function here
     loss = 0
     for x in range(batch_size):
-        target_val = reward.data[x] + gamma * torch.max(target_model(next_state).data[x])
-        model_val = reward.data[x] + gamma * torch.max(model(state).data[x])
+        target_val = reward.data[x] + gamma * torch.max(target_model(next_state).data[action.data[x]])
+        # Added this
+        if done.data[x]:
+            model_val = reward.data[x]
+        else:
+            model_val = reward.data[x] + gamma * torch.max(model(state).data[action.data[x]])
         loss += (target_val - model_val)**2
 
     return Variable(torch.FloatTensor([loss/batch_size]), requires_grad=True)
