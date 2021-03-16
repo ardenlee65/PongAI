@@ -69,7 +69,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     next_state = Variable(torch.FloatTensor(np.float32(next_state)).squeeze(1), requires_grad=True)
     action = Variable(torch.LongTensor(action))
     reward = Variable(torch.FloatTensor(reward))
-    done = Variable(torch.FloatTensor(done))
+    done = Variable(torch.ByteTensor(done))
     # implement the loss function here
     # loss = 0
     # for x in range(batch_size):
