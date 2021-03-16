@@ -25,7 +25,7 @@ record_idx = 10000
 replay_initial = 10000
 replay_buffer = ReplayBuffer(100000)
 model = QLearner(env, num_frames, batch_size, gamma, replay_buffer)
-model.load_state_dict(torch.load("model_pretrained.pth", map_location='cpu'))
+model.load_state_dict(torch.load("new_model", map_location='cpu'))
 
 target_model = QLearner(env, num_frames, batch_size, gamma, replay_buffer)
 target_model.copy_from(model)
@@ -65,7 +65,7 @@ for frame_idx in range(1, num_frames + 1):
         state = env.reset()
         all_rewards.append((frame_idx, episode_reward))
         # MY CODE
-        reward_saved.write(str(frame_idx) + "," + str(episode_reward) + '\n')
+        reward_saved.write(str(frame_idx + 870000) + "," + str(episode_reward) + '\n')
         episode_reward = 0
 
 
@@ -76,7 +76,7 @@ for frame_idx in range(1, num_frames + 1):
         optimizer.step()
         losses.append((frame_idx, loss.data.cpu().numpy()))
         # MY CODE
-        loss_saved.write(str(frame_idx) + "," + str(loss.data.cpu().numpy()) + "\n")
+        loss_saved.write(str(frame_idx + 870000) + "," + str(loss.data.cpu().numpy()) + "\n")
 
 
     if frame_idx % 10000 == 0 and len(replay_buffer) <= replay_initial:
