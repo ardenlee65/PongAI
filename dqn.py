@@ -65,31 +65,18 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     state, action, reward, next_state, done = replay_buffer.sample(batch_size)
 
     #state = Variable(torch.FloatTensor(np.float32(state)))
-    state = Variable(torch.FloatTensor(np.float32(state)).squeeze(1))
-    next_state = Variable(torch.FloatTensor(np.float32(next_state)).squeeze(1), requires_grad=True)
-    action = Variable(torch.LongTensor(action))
-    reward = Variable(torch.FloatTensor(reward))
-    done = Variable(torch.ByteTensor(done))
-    # implement the loss function here
-    # loss = 0
-    # for x in range(batch_size):
-    #     target_val = reward.data[x] + gamma * torch.max(target_model(next_state).data[action.data[x]])
-    #     # Added this
-    #     if done.data[x]:
-    #         model_val = reward.data[x]
-    #     else:
-    #         # maybe dont use action.data[x]?
-    #         model_val = reward.data[x] + gamma * torch.max(model(state).data[action.data[x]])
-    #     loss += (target_val - model_val)**2
+    states_v = torch.tensor(state).to(device)
+    next_states_v = torch.tensor(next_state).to(device)
+    actions_v = torch.tensor(action).to(device)
+    rewards_v = torch.tensor(reward).to(device)
+    done_mask = torch.ByteTensor(done).to(device)
 
-    # return Variable(torch.FloatTensor([loss/batch_size]), requires_grad=True)
-    state_action_values = model(state).gather(1, action.unsqueeze(-1)).squeeze(-1)
-    next_state_values = target_model(next_state).max(1)[0]
-    next_state_values[done] = 0.0
+    state_action_values = model(states_v).gather(1, actions_v.unsqueeze(-1)).squeeze(-1)
+    next_state_values = target_model(next_states_v).max(1)[0]
+    next_state_values[done_mask] = 0.0
     next_state_values = next_state_values.detach()
-    expected_state_action_values = next_state_values * gamma + reward
-
-    loss = nn.MSELoss()(state_action_values, expected_state_action_values)
+    expected_state_action_values=next_state_values * gamma + rewards_v
+    loss_t = nn.MSELoss()(state_action_values, expected_state_action_values)
 
     return loss
 
