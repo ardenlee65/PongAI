@@ -84,7 +84,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
 
     # return Variable(torch.FloatTensor([loss/batch_size]), requires_grad=True)
     state_action_values = model(state).gather(1, action.unsqueeze(-1)).squeeze(-1)
-    next_state_values = target_model(next_state).max(1)[0]
+    next_state_values = target_model(next_state).max(1)[0].detach()
     next_state_values[done] = 0.0
     next_state_values = next_state_values.detach()
     expected_state_action_values = next_state_values * gamma + reward
