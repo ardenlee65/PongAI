@@ -78,7 +78,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     expected_state_action_values=next_state_values * gamma + rewards_v
     loss_t = nn.MSELoss()(state_action_values, expected_state_action_values)
 
-    return loss
+    return loss_t
 
 
 class ReplayBuffer(object):
