@@ -76,7 +76,7 @@ for frame_idx in range(1, num_frames + 1):
         optimizer.step()
         losses.append((frame_idx, loss.data.cpu().numpy()))
         # MY CODE
-        loss_saved.write(str(frame_idx) + "," + str(loss.data.cpu().numpy()[0]) + "\n")
+        loss_saved.write(str(frame_idx) + "," + str(loss.data.cpu().numpy()) + "\n")
 
 
     if frame_idx % 10000 == 0 and len(replay_buffer) <= replay_initial:
