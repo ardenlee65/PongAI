@@ -71,18 +71,27 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     reward = Variable(torch.FloatTensor(reward))
     done = Variable(torch.FloatTensor(done))
     # implement the loss function here
-    loss = 0
-    for x in range(batch_size):
-        target_val = reward.data[x] + gamma * torch.max(target_model(next_state).data[action.data[x]])
-        # Added this
-        if done.data[x]:
-            model_val = reward.data[x]
-        else:
-            # maybe dont use action.data[x]?
-            model_val = reward.data[x] + gamma * torch.max(model(state).data[action.data[x]])
-        loss += (target_val - model_val)**2
+    # loss = 0
+    # for x in range(batch_size):
+    #     target_val = reward.data[x] + gamma * torch.max(target_model(next_state).data[action.data[x]])
+    #     # Added this
+    #     if done.data[x]:
+    #         model_val = reward.data[x]
+    #     else:
+    #         # maybe dont use action.data[x]?
+    #         model_val = reward.data[x] + gamma * torch.max(model(state).data[action.data[x]])
+    #     loss += (target_val - model_val)**2
 
-    return Variable(torch.FloatTensor([loss/batch_size]), requires_grad=True)
+    # return Variable(torch.FloatTensor([loss/batch_size]), requires_grad=True)
+    state_action_values = net(state).gather(1, action.unsqueeze(-1)).squeeze(-1)
+    next_state_values = target_net(next_state).max(1)[0]
+    next_state_values[done] = 0.0
+    next_state_values = next_state_values.detach()
+    expected_state_action_values = next_state_values * gamma + reward
+
+    loss = nn.MSELoss()(state_action_values, expected_state_action_values)
+
+    return loss
 
 
 class ReplayBuffer(object):
