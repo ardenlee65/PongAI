@@ -17,7 +17,7 @@ env = make_atari(env_id)
 env = wrap_deepmind(env)
 env = wrap_pytorch(env)
 
-num_frames = 1000000
+num_frames = 2000000
 batch_size = 32
 gamma = 0.99
 record_idx = 10000
