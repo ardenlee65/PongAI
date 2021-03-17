@@ -47,6 +47,8 @@ episode_reward = 0
 # MY CODE
 loss_saved = open("loss.csv", "a")
 reward_saved = open("reward.csv", "a")
+loss_saved.write("frames,loss\n")
+reward_saved.write("frames,reward\n")
 state = env.reset()
 
 for frame_idx in range(1, num_frames + 1):
