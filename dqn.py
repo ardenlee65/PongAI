@@ -7,6 +7,7 @@ import torch.autograd as autograd
 import math, random
 USE_CUDA = torch.cuda.is_available()
 Variable = lambda *args, **kwargs: autograd.Variable(*args, **kwargs).cuda() if USE_CUDA else autograd.Variable(*args, **kwargs)
+#hello
 
 class QLearner(nn.Module):
     def __init__(self, env, num_frames, batch_size, gamma, replay_buffer):
